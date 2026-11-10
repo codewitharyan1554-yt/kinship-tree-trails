@@ -109,6 +109,7 @@ export const personQuery = (personId: string) =>
 export async function refreshTree(qc: QueryClient, treeId: string) {
   await Promise.all([
     qc.invalidateQueries({ queryKey: ["tree", treeId] }),
+    qc.invalidateQueries({ queryKey: ["friends", treeId] }),
     qc.invalidateQueries({ queryKey: ["person"] }),
     qc.invalidateQueries({ queryKey: ["trees"] }),
   ]);
@@ -305,6 +306,44 @@ export async function removePartnerLink(idx: TreeIndex, family: Family, personId
   const other = otherPartner(family, personId);
   const col: PartnerCol = family.partner1_id === other ? "partner1_id" : "partner2_id";
   await supabase.from("families").update(slot(col, null)).eq("id", family.id).throwOnError();
+}
+
+// ---------- Friends ----------
+
+export type Friendship = Tables<"friendships">;
+export interface FriendFields {
+  friend_person_id: string | null;
+  friend_name: string | null;
+  how_met: string | null;
+  notes: string | null;
+}
+
+export const friendshipsQuery = (treeId: string) =>
+  queryOptions({
+    queryKey: ["friends", treeId],
+    queryFn: () =>
+      fetchAll<Friendship>((a, b) =>
+        supabase.from("friendships").select("*").eq("tree_id", treeId).order("created_at").range(a, b),
+      ),
+  });
+
+export async function addFriend(treeId: string, personId: string, fields: FriendFields) {
+  if (fields.friend_person_id === personId) throw new Error("A person can't be their own friend.");
+  const { error } = await supabase
+    .from("friendships")
+    .insert({ ...fields, tree_id: treeId, person_id: personId });
+  if (error) throw error;
+  await touchTree(treeId);
+}
+
+export async function updateFriend(friendshipId: string, fields: Pick<FriendFields, "how_met" | "notes"> & { friend_name?: string | null }) {
+  const { error } = await supabase.from("friendships").update(fields).eq("id", friendshipId);
+  if (error) throw error;
+}
+
+export async function removeFriend(friendshipId: string) {
+  const { error } = await supabase.from("friendships").delete().eq("id", friendshipId);
+  if (error) throw error;
 }
 
 // ---------- GEDCOM import ----------
