@@ -14,13 +14,190 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      families: {
+        Row: {
+          created_at: string
+          id: string
+          marriage_date: string | null
+          marriage_place: string | null
+          partner1_id: string | null
+          partner2_id: string | null
+          tree_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          marriage_date?: string | null
+          marriage_place?: string | null
+          partner1_id?: string | null
+          partner2_id?: string | null
+          tree_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          marriage_date?: string | null
+          marriage_place?: string | null
+          partner1_id?: string | null
+          partner2_id?: string | null
+          tree_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "families_partner1_id_fkey"
+            columns: ["partner1_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "families_partner2_id_fkey"
+            columns: ["partner2_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "families_tree_id_fkey"
+            columns: ["tree_id"]
+            isOneToOne: false
+            referencedRelation: "trees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_children: {
+        Row: {
+          child_id: string
+          created_at: string
+          family_id: string
+          tree_id: string
+        }
+        Insert: {
+          child_id: string
+          created_at?: string
+          family_id: string
+          tree_id: string
+        }
+        Update: {
+          child_id?: string
+          created_at?: string
+          family_id?: string
+          tree_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_children_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "family_children_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "family_children_tree_id_fkey"
+            columns: ["tree_id"]
+            isOneToOne: false
+            referencedRelation: "trees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      people: {
+        Row: {
+          birth_date: string | null
+          birth_place: string | null
+          created_at: string
+          death_date: string | null
+          death_place: string | null
+          given_name: string
+          id: string
+          notes: string | null
+          photo_path: string | null
+          sex: string
+          surname: string
+          tree_id: string
+          updated_at: string
+        }
+        Insert: {
+          birth_date?: string | null
+          birth_place?: string | null
+          created_at?: string
+          death_date?: string | null
+          death_place?: string | null
+          given_name?: string
+          id?: string
+          notes?: string | null
+          photo_path?: string | null
+          sex?: string
+          surname?: string
+          tree_id: string
+          updated_at?: string
+        }
+        Update: {
+          birth_date?: string | null
+          birth_place?: string | null
+          created_at?: string
+          death_date?: string | null
+          death_place?: string | null
+          given_name?: string
+          id?: string
+          notes?: string | null
+          photo_path?: string | null
+          sex?: string
+          surname?: string
+          tree_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "people_tree_id_fkey"
+            columns: ["tree_id"]
+            isOneToOne: false
+            referencedRelation: "trees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trees: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      owns_tree: { Args: { _tree_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
