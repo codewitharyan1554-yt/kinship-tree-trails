@@ -20,7 +20,7 @@ export function PersonAvatar({
     <span
       className={cn(
         "flex shrink-0 items-center justify-center overflow-hidden rounded-full font-semibold",
-        sexTone[person.sex] ?? sexTone.U,
+        sexTone[person.sex] ?? sexTone["U"],
         className,
       )}
     >

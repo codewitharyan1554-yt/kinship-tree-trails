@@ -145,7 +145,7 @@ export function TreeCanvas({
               onClick={() => onFocus(n.personId)}
               className={cn(
                 "absolute flex items-center gap-3 rounded-lg border border-l-4 border-border bg-card px-3 text-left shadow-card transition-[left,top,box-shadow] duration-500 ease-out hover:ring-2 hover:ring-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                sexBorder[p.sex] ?? sexBorder.U,
+                sexBorder[p.sex] ?? sexBorder["U"],
                 isFocus && "ring-2 ring-primary",
               )}
               style={{ left: n.x - CARD_W / 2, top: n.y, width: CARD_W, height: CARD_H }}

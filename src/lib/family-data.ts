@@ -193,6 +193,10 @@ async function touchTree(treeId: string) {
 
 export type Relation = "parent" | "partner" | "child" | "sibling";
 
+type PartnerCol = "partner1_id" | "partner2_id";
+const slot = (col: PartnerCol, v: string | null) =>
+  col === "partner1_id" ? { partner1_id: v } : { partner2_id: v };
+
 async function insertFamily(row: TablesInsert<"families">) {
   const { data, error } = await supabase.from("families").insert(row).select().single();
   if (error) throw error;
@@ -247,8 +251,8 @@ export async function addRelationship(
       throw new Error("They're already partners.");
     const open = fams.find((f) => !otherPartner(f, personId));
     if (open) {
-      const col = open.partner1_id === personId ? "partner2_id" : "partner1_id";
-      await supabase.from("families").update({ [col]: relativeId }).eq("id", open.id).throwOnError();
+      const col: PartnerCol = open.partner1_id === personId ? "partner2_id" : "partner1_id";
+      await supabase.from("families").update(slot(col, relativeId)).eq("id", open.id).throwOnError();
     } else {
       await insertFamily({ tree_id: treeId, partner1_id: personId, partner2_id: relativeId });
     }
@@ -287,8 +291,8 @@ export async function removeParentLink(familyId: string, childId: string) {
 }
 
 export async function removeParentFromFamily(family: Family, parentId: string) {
-  const col = family.partner1_id === parentId ? "partner1_id" : "partner2_id";
-  await supabase.from("families").update({ [col]: null }).eq("id", family.id).throwOnError();
+  const col: PartnerCol = family.partner1_id === parentId ? "partner1_id" : "partner2_id";
+  await supabase.from("families").update(slot(col, null)).eq("id", family.id).throwOnError();
 }
 
 export async function removePartnerLink(idx: TreeIndex, family: Family, personId: string) {
@@ -299,8 +303,8 @@ export async function removePartnerLink(idx: TreeIndex, family: Family, personId
   }
   // Keep the children attached to this person; just drop the partner
   const other = otherPartner(family, personId);
-  const col = family.partner1_id === other ? "partner1_id" : "partner2_id";
-  await supabase.from("families").update({ [col]: null }).eq("id", family.id).throwOnError();
+  const col: PartnerCol = family.partner1_id === other ? "partner1_id" : "partner2_id";
+  await supabase.from("families").update(slot(col, null)).eq("id", family.id).throwOnError();
 }
 
 // ---------- GEDCOM import ----------
