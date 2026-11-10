@@ -15,8 +15,8 @@ import { buildIndex, fullName, lifeSpan } from "@/lib/relations";
 import { downloadGedcom } from "@/lib/download";
 
 export const Route = createFileRoute("/_authenticated/trees/$treeId")({
-  validateSearch: (s: Record<string, unknown>): { focus?: string } => ({
-    focus: typeof s.focus === "string" ? s.focus : undefined,
+  validateSearch: (s: Record<string, unknown>): { focus?: string | undefined } => ({
+    focus: typeof s["focus"] === "string" ? s["focus"] : undefined,
   }),
   loader: ({ context, params }) => context.queryClient.ensureQueryData(treeDataQuery(params.treeId)),
   head: () => ({

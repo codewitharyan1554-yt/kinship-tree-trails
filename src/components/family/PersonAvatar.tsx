@@ -13,8 +13,8 @@ export function PersonAvatar({
   className,
 }: {
   person: Pick<PersonLike, "given_name" | "surname" | "sex">;
-  url?: string | null;
-  className?: string;
+  url?: string | null | undefined;
+  className?: string | undefined;
 }) {
   return (
     <span
