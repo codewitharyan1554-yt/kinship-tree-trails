@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { PersonAvatar } from "@/components/family/PersonAvatar";
 import { RelationshipList } from "@/components/family/RelationshipList";
+import { FriendsSection } from "@/components/family/FriendsSection";
 import { AddRelativeDialog, EditPersonDialog } from "@/components/family/PersonDialogs";
 import {
   deletePerson,
@@ -282,15 +283,23 @@ function PersonPage() {
           </section>
         </div>
 
-        <aside className="h-fit rounded-xl border border-border bg-card p-6 shadow-card">
-          <h2 className="mb-4 text-xl font-semibold">Family</h2>
-          <RelationshipList
+        <aside className="h-fit space-y-8">
+          <section className="rounded-xl border border-border bg-card p-6 shadow-card">
+            <h2 className="mb-4 text-xl font-semibold">Family</h2>
+            <RelationshipList
+              idx={idx}
+              person={person}
+              photoUrls={urls}
+              onPick={(id) => navigate({ to: "/people/$personId", params: { personId: id } })}
+              onAdd={setRelation}
+              onRemove={onRemoveLink}
+            />
+          </section>
+          <FriendsSection
             idx={idx}
             person={person}
             photoUrls={urls}
             onPick={(id) => navigate({ to: "/people/$personId", params: { personId: id } })}
-            onAdd={setRelation}
-            onRemove={onRemoveLink}
           />
         </aside>
       </div>
