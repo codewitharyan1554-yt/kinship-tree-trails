@@ -13,7 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedPeoplePersonIdRouteImport } from './routes/_authenticated/people.$personId'
 import { Route as AuthenticatedTreesIndexRouteImport } from './routes/_authenticated/trees.index'
+import { Route as AuthenticatedTreesTreeIdRouteImport } from './routes/_authenticated/trees.$treeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,22 +36,38 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPeoplePersonIdRoute =
+  AuthenticatedPeoplePersonIdRouteImport.update({
+    id: '/people/$personId',
+    path: '/people/$personId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTreesIndexRoute = AuthenticatedTreesIndexRouteImport.update({
   id: '/trees/',
   path: '/trees/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTreesTreeIdRoute =
+  AuthenticatedTreesTreeIdRouteImport.update({
+    id: '/trees/$treeId',
+    path: '/trees/$treeId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/people/$personId': typeof AuthenticatedPeoplePersonIdRoute
+  '/trees/$treeId': typeof AuthenticatedTreesTreeIdRoute
   '/trees/': typeof AuthenticatedTreesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/people/$personId': typeof AuthenticatedPeoplePersonIdRoute
+  '/trees/$treeId': typeof AuthenticatedTreesTreeIdRoute
   '/trees': typeof AuthenticatedTreesIndexRoute
 }
 export interface FileRoutesById {
@@ -58,19 +76,35 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/people/$personId': typeof AuthenticatedPeoplePersonIdRoute
+  '/_authenticated/trees/$treeId': typeof AuthenticatedTreesTreeIdRoute
   '/_authenticated/trees/': typeof AuthenticatedTreesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/trees/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/people/$personId'
+    | '/trees/$treeId'
+    | '/trees/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/trees'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/people/$personId'
+    | '/trees/$treeId'
+    | '/trees'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/people/$personId'
+    | '/_authenticated/trees/$treeId'
     | '/_authenticated/trees/'
   fileRoutesById: FileRoutesById
 }
@@ -111,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/people/$personId': {
+      id: '/_authenticated/people/$personId'
+      path: '/people/$personId'
+      fullPath: '/people/$personId'
+      preLoaderRoute: typeof AuthenticatedPeoplePersonIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/trees/': {
       id: '/_authenticated/trees/'
       path: '/trees'
@@ -118,14 +159,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTreesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/trees/$treeId': {
+      id: '/_authenticated/trees/$treeId'
+      path: '/trees/$treeId'
+      fullPath: '/trees/$treeId'
+      preLoaderRoute: typeof AuthenticatedTreesTreeIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPeoplePersonIdRoute: typeof AuthenticatedPeoplePersonIdRoute
+  AuthenticatedTreesTreeIdRoute: typeof AuthenticatedTreesTreeIdRoute
   AuthenticatedTreesIndexRoute: typeof AuthenticatedTreesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPeoplePersonIdRoute: AuthenticatedPeoplePersonIdRoute,
+  AuthenticatedTreesTreeIdRoute: AuthenticatedTreesTreeIdRoute,
   AuthenticatedTreesIndexRoute: AuthenticatedTreesIndexRoute,
 }
 
