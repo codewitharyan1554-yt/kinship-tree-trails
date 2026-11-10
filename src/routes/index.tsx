@@ -57,7 +57,7 @@ function Landing() {
       <main>
         <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-[1.05fr_1fr] md:pt-12">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-accent">Vanshavali · वंशावली</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-clay">Vanshavali · वंशावली</p>
             <h1 className="text-4xl font-semibold leading-[1.08] md:text-6xl">
               Every root, every branch, kept for the next generation.
             </h1>

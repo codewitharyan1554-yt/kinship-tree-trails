@@ -59,6 +59,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-clay: var(--clay);
   --color-canvas: var(--canvas);
   --color-canvas-dot: var(--canvas-dot);
   --color-line: var(--line);
@@ -87,8 +88,9 @@
   --secondary-foreground: oklch(0.3 0.04 150);
   --muted: oklch(0.935 0.018 85);
   --muted-foreground: oklch(0.5 0.03 140);
-  --accent: oklch(0.6 0.13 45);
-  --accent-foreground: oklch(0.98 0.01 85);
+  --accent: oklch(0.92 0.03 80);
+  --accent-foreground: oklch(0.25 0.03 150);
+  --clay: oklch(0.58 0.13 45);
   --destructive: oklch(0.55 0.19 27);
   --destructive-foreground: oklch(0.98 0.01 85);
   --border: oklch(0.86 0.025 85);
@@ -133,8 +135,9 @@
   --secondary-foreground: oklch(0.94 0.015 85);
   --muted: oklch(0.28 0.02 150);
   --muted-foreground: oklch(0.72 0.03 120);
-  --accent: oklch(0.68 0.13 45);
-  --accent-foreground: oklch(0.2 0.02 150);
+  --accent: oklch(0.32 0.025 150);
+  --accent-foreground: oklch(0.94 0.015 85);
+  --clay: oklch(0.7 0.13 45);
   --destructive: oklch(0.65 0.19 25);
   --destructive-foreground: oklch(0.98 0.01 85);
   --border: oklch(1 0 0 / 12%);
