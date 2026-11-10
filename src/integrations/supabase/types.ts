@@ -109,6 +109,61 @@ export type Database = {
           },
         ]
       }
+      friendships: {
+        Row: {
+          created_at: string
+          friend_name: string | null
+          friend_person_id: string | null
+          how_met: string | null
+          id: string
+          notes: string | null
+          person_id: string
+          tree_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_name?: string | null
+          friend_person_id?: string | null
+          how_met?: string | null
+          id?: string
+          notes?: string | null
+          person_id: string
+          tree_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_name?: string | null
+          friend_person_id?: string | null
+          how_met?: string | null
+          id?: string
+          notes?: string | null
+          person_id?: string
+          tree_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friendships_friend_person_id_fkey"
+            columns: ["friend_person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "friendships_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "friendships_tree_id_fkey"
+            columns: ["tree_id"]
+            isOneToOne: false
+            referencedRelation: "trees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       people: {
         Row: {
           birth_date: string | null
