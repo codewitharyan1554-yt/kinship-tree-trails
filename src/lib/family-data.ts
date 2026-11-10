@@ -286,6 +286,11 @@ export async function removeParentLink(familyId: string, childId: string) {
     .throwOnError();
 }
 
+export async function removeParentFromFamily(family: Family, parentId: string) {
+  const col = family.partner1_id === parentId ? "partner1_id" : "partner2_id";
+  await supabase.from("families").update({ [col]: null }).eq("id", family.id).throwOnError();
+}
+
 export async function removePartnerLink(idx: TreeIndex, family: Family, personId: string) {
   const kids = idx.childrenOfFamily.get(family.id) ?? [];
   if (kids.length === 0) {
